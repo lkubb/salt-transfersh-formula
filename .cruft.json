@@ -1,0 +1,45 @@
+{
+  "template": "https://github.com/lkubb/salt-template-formula-compose",
+  "commit": "3bf116fca254f07ebcba5a30fcc5f071472ef84a",
+  "checkout": null,
+  "context": {
+    "cookiecutter": {
+      "_extensions": [
+        "local_extensions.YAMLDumper"
+      ],
+      "_jinja2_env_vars": {
+        "block_start_string": "{!",
+        "block_end_string": "!}",
+        "variable_start_string": "{=",
+        "variable_end_string": "=}",
+        "comment_start_string": "{@",
+        "comment_end_string": "@}"
+      },
+      "name": "transfer.sh",
+      "abbr": "transfersh",
+      "abbr_pysafe": "transfersh",
+      "project_name": "transfersh",
+      "containers": "transfersh",
+      "git_username": "lkubb",
+      "_lookup": {
+        "containers": {
+          "transfersh": {
+            "image": "docker.io/dutchcoders/transfer.sh:latest-noroot"
+          }
+        },
+        "paths": {
+          "data": "data"
+        }
+      },
+      "_settings": {
+        "config": {
+          "basedir": "/data",
+          "listener": "127.0.0.1:7435",
+          "provider": "local"
+        }
+      },
+      "_template": "https://github.com/lkubb/salt-template-formula-compose"
+    }
+  },
+  "directory": null
+}

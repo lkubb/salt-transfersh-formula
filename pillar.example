@@ -1,0 +1,125 @@
+# -*- coding: utf-8 -*-
+# vim: ft=yaml
+# yamllint disable rule:comments-indentation
+---
+transfersh:
+  install:
+      # Install rootless containers running as dedicated user.
+    rootless: true
+      # When applying `clean` states, also remove application data.
+      # Setting this to true might incur accidental data loss!
+    remove_all_data_for_sure: false
+  config:
+  # aws_access_key: null
+  # aws_secret_key: null
+      # Base directory for local provider
+    basedir: /data
+  # bucket: null
+  # clamav_host: null
+  # cors_domains: []
+  # email_contact: null
+  # force_https: false
+  # ga_key: null
+  # gdrive_chunk_size: null
+  # gdrive_client_json_filepath: null
+  # gdrive_local_config_path: null
+      # Hosts to use for Let's Encrypt certificates
+  # hosts: []
+  # http_auth_pass: null
+  # http_auth_user: null
+  # ip_blacklist: []
+  # ip_whitelist: []
+      # IP:port to listen on
+    listener: 127.0.0.1:7435
+  # log: null
+      # max limit for upload, in kilobytes
+  # max_upload_size: 0
+  # perform_clamav_prescan: null
+  # profile_listener: null
+  # profiler: null
+      # s3, storj, gdrive, local
+    provider: local
+      # path prefix when service is run behind a proxy
+  # proxy_path: null
+  # proxy_port: null
+      # number of days after uploads are purged automatically
+  # purge_days: 0
+      # interval in hours to run the automatic purge for
+  # purge_interval: 0
+  # random_token_length: 6
+  # rate_limit: null
+  # s3_endpoint: null
+  # s3_no_multipart: false
+      # Forces path style URLs, required for Minio.
+  # s3_path_style: false
+  # s3_region: eu-west-1
+  # storj_access: null
+  # storj_bucket: null
+  # temp_path: null
+  # tls_cert_file: null
+  # tls_listener: 127.0.0.1:8443
+  # tls_listener_only: null
+  # tls_private_key: null
+  # uservoice_key: null
+  # web_path: null
+
+  lookup:
+    rootgroup: root
+    compose:
+      create_pod: null
+      pod_args: null
+      project_name: transfersh
+      remove_orphans: true
+      service:
+        container_prefix: null
+        ephemeral: true
+        pod_prefix: null
+        restart_policy: on-failure
+        separator: null
+        stop_timeout: null
+    paths:
+      base: /opt/containers/transfersh
+      compose: docker-compose.yml
+      config_transfersh: transfersh.env
+      data: data
+    user:
+      groups: []
+      home: null
+      name: transfersh
+      shell: /usr/sbin/nologin
+      uid: null
+    containers:
+      transfersh:
+        image: docker.io/dutchcoders/transfer.sh:latest-noroot
+
+  tofs:
+      # The files_switch key serves as a selector for alternative
+      # directories under the formula files directory. See TOFS pattern
+      # doc for more info.
+      # Note: Any value not evaluated by `config.get` will be used literally.
+      # This can be used to set custom paths, as many levels deep as required.
+    files_switch:
+      - any/path/can/be/used/here
+      - id
+      - roles
+      - osfinger
+      - os
+      - os_family
+
+      # All aspects of path/file resolution are customisable using the options below.
+      # This is unnecessary in most cases; there are sensible defaults.
+      # Default path: salt://< path_prefix >/< dirs.files >/< dirs.default >
+      # I.e.: salt://transfersh/files/default
+      # path_prefix: template_alt
+      # dirs:
+      #   files: files_alt
+      #   default: default_alt
+      # The entries under `source_files` are prepended to the default source files
+      # given for the state
+    source_files:
+      transfer.sh compose file is managed:
+        - docker-compose_alt.yml
+        - docker-compose_alt.yml.j2
+      transfersh environment file is managed:
+        - transfersh_alt.env
+        - transfersh_alt.env.j2

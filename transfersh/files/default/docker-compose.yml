@@ -1,0 +1,27 @@
+---
+version: '3.8'
+
+services:
+  transfer:
+    image: {{ transfersh.lookup.containers.transfersh.image }}
+    restart: unless-stopped
+    hostname: transfer
+    env_file:
+      - {{ transfersh.lookup.paths.config_transfersh }}
+{%- if "local" == transfersh.config.provider %}
+    volumes:
+      - {{ transfersh.lookup.paths.data or "transfersh-data" }}:{{ transfersh.config.basedir }}
+{%- endif %}
+    ports:
+{%- if not transfersh.config.get("tls_listener_only") %}
+      - "{{ transfersh.config.listener.split(":") | last }}:8080"
+{%- endif %}
+{%- if transfersh.config.get("tls_listener") %}
+      - "{{ transfersh.config.tls_listener.split(":") | last }}:{{ transfersh.config.tls_listener.split(":") | last }}"
+{%- endif %}
+
+{%- if "local" == transfersh.config.provider and not transfersh.lookup.paths.data %}
+
+volumes:
+  transfersh-data:
+{%- endif %}
