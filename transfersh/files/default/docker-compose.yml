@@ -8,8 +8,12 @@ services:
     hostname: transfer
     env_file:
       - {{ transfersh.lookup.paths.config_transfersh }}
-{%- if "local" == transfersh.config.provider %}
     volumes:
+      # temporary workaround for https://github.com/dutchcoders/transfer.sh/issues/462
+      # mounting a subdir only does not work because it does not have 777 permissions
+      # by default.
+      - /tmp:/tmp
+{%- if "local" == transfersh.config.provider %}
       - {{ transfersh.lookup.paths.data or "transfersh-data" }}:{{ transfersh.config.basedir }}
 {%- endif %}
     ports:
