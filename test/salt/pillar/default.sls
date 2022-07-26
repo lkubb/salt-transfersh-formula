@@ -17,6 +17,7 @@ transfersh:
         ephemeral: true
         pod_prefix: null
         restart_policy: on-failure
+        restart_sec: 2
         separator: null
         stop_timeout: null
     paths:
@@ -30,6 +31,7 @@ transfersh:
       name: transfersh
       shell: /usr/sbin/nologin
       uid: null
+      gid: null
     containers:
       transfersh:
         image: docker.io/dutchcoders/transfer.sh:latest-noroot

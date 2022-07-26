@@ -22,6 +22,8 @@ transfer.sh user session is initialized at boot:
   compose.lingering_managed:
     - name: {{ transfersh.lookup.user.name }}
     - enable: {{ transfersh.install.rootless }}
+    - require:
+      - user: {{ transfersh.lookup.user.name }}
 
 transfer.sh paths are present:
   file.directory:
