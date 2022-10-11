@@ -40,6 +40,8 @@ transfersh:
         image: docker.io/dutchcoders/transfer.sh:latest-noroot
   install:
     rootless: true
+    autoupdate: true
+    autoupdate_service: false
     remove_all_data_for_sure: false
   config:
     basedir: /data

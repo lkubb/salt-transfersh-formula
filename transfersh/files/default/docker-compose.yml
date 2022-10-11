@@ -8,6 +8,10 @@ services:
     hostname: transfer
     env_file:
       - {{ transfersh.lookup.paths.config_transfersh }}
+{%- if transfersh.install.autoupdate %}
+    labels:
+      - io.containers.autoupdate=registry
+{%- endif %}
     volumes:
       # temporary workaround for https://github.com/dutchcoders/transfer.sh/issues/462
       # mounting a subdir only does not work because it does not have 777 permissions

@@ -71,3 +71,15 @@ transfer.sh is installed:
     - require:
       - user: {{ transfersh.lookup.user.name }}
 {%- endif %}
+
+{%- if transfersh.install.autoupdate_service is not none %}
+
+Podman autoupdate service is managed for transfer.sh:
+{%-   if transfersh.install.rootless %}
+  compose.systemd_service_{{ "enabled" if transfersh.install.autoupdate_service else "disabled" }}:
+    - user: {{ transfersh.lookup.user.name }}
+{%-   else %}
+  service.{{ "enabled" if transfersh.install.autoupdate_service else "disabled" }}:
+{%-   endif %}
+    - name: podman-auto-update.timer
+{%- endif %}

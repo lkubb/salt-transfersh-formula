@@ -8,6 +8,18 @@
 include:
   - {{ sls_config_clean }}
 
+{%- if transfersh.install.autoupdate_service %}
+
+Podman autoupdate service is disabled for transfer.sh:
+{%-   if transfersh.install.rootless %}
+  compose.systemd_service_disabled:
+    - user: {{ transfersh.lookup.user.name }}
+{%-   else %}
+  service.disabled:
+{%-   endif %}
+    - name: podman-auto-update.timer
+{%- endif %}
+
 transfer.sh is absent:
   compose.removed:
     - name: {{ transfersh.lookup.paths.compose }}
