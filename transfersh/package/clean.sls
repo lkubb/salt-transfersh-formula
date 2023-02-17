@@ -1,8 +1,14 @@
-# -*- coding: utf-8 -*-
 # vim: ft=sls
 
-{%- set tplroot = tpldir.split('/')[0] %}
-{%- set sls_config_clean = tplroot ~ '.config.clean' %}
+{#-
+    Removes the transfersh containers
+    and the corresponding user account and service units.
+    Has a depency on `transfersh.config.clean`_.
+    If ``remove_all_data_for_sure`` was set, also removes all data.
+#}
+
+{%- set tplroot = tpldir.split("/")[0] %}
+{%- set sls_config_clean = tplroot ~ ".config.clean" %}
 {%- from tplroot ~ "/map.jinja" import mapdata as transfersh with context %}
 
 include:
@@ -40,6 +46,25 @@ transfer.sh compose file is absent:
     - name: {{ transfersh.lookup.paths.compose }}
     - require:
       - transfer.sh is absent
+
+{%- if transfersh.install.podman_api %}
+
+transfer.sh podman API is unavailable:
+  compose.systemd_service_dead:
+    - name: podman
+    - user: {{ transfersh.lookup.user.name }}
+    - onlyif:
+      - fun: user.info
+        name: {{ transfersh.lookup.user.name }}
+
+transfer.sh podman API is disabled:
+  compose.systemd_service_disabled:
+    - name: podman
+    - user: {{ transfersh.lookup.user.name }}
+    - onlyif:
+      - fun: user.info
+        name: {{ transfersh.lookup.user.name }}
+{%- endif %}
 
 transfer.sh user session is not initialized at boot:
   compose.lingering_managed:

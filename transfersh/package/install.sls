@@ -1,7 +1,6 @@
-# -*- coding: utf-8 -*-
 # vim: ft=sls
 
-{%- set tplroot = tpldir.split('/')[0] %}
+{%- set tplroot = tpldir.split("/")[0] %}
 {%- from tplroot ~ "/map.jinja" import mapdata as transfersh with context %}
 {%- from tplroot ~ "/libtofs.jinja" import files_switch with context %}
 
@@ -35,11 +34,28 @@ transfer.sh paths are present:
     - require:
       - user: {{ transfersh.lookup.user.name }}
 
+{%- if transfersh.install.podman_api %}
+
+transfer.sh podman API is enabled:
+  compose.systemd_service_enabled:
+    - name: podman
+    - user: {{ transfersh.lookup.user.name }}
+    - require:
+      - transfer.sh user session is initialized at boot
+
+transfer.sh podman API is available:
+  compose.systemd_service_running:
+    - name: podman
+    - user: {{ transfersh.lookup.user.name }}
+    - require:
+      - transfer.sh user session is initialized at boot
+{%- endif %}
+
 transfer.sh compose file is managed:
   file.managed:
     - name: {{ transfersh.lookup.paths.compose }}
-    - source: {{ files_switch(['docker-compose.yml', 'docker-compose.yml.j2'],
-                              lookup='transfer.sh compose file is present'
+    - source: {{ files_switch(["docker-compose.yml", "docker-compose.yml.j2"],
+                              lookup="transfer.sh compose file is present"
                  )
               }}
     - mode: '0644'
