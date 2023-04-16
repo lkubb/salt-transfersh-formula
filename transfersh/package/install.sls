@@ -38,14 +38,14 @@ transfer.sh paths are present:
 
 transfer.sh podman API is enabled:
   compose.systemd_service_enabled:
-    - name: podman
+    - name: podman.socket
     - user: {{ transfersh.lookup.user.name }}
     - require:
       - transfer.sh user session is initialized at boot
 
 transfer.sh podman API is available:
   compose.systemd_service_running:
-    - name: podman
+    - name: podman.socket
     - user: {{ transfersh.lookup.user.name }}
     - require:
       - transfer.sh user session is initialized at boot

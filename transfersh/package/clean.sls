@@ -51,7 +51,7 @@ transfer.sh compose file is absent:
 
 transfer.sh podman API is unavailable:
   compose.systemd_service_dead:
-    - name: podman
+    - name: podman.socket
     - user: {{ transfersh.lookup.user.name }}
     - onlyif:
       - fun: user.info
@@ -59,7 +59,7 @@ transfer.sh podman API is unavailable:
 
 transfer.sh podman API is disabled:
   compose.systemd_service_disabled:
-    - name: podman
+    - name: podman.socket
     - user: {{ transfersh.lookup.user.name }}
     - onlyif:
       - fun: user.info

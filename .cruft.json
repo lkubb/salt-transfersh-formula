@@ -1,6 +1,6 @@
 {
   "template": "https://github.com/lkubb/salt-template-formula-compose",
-  "commit": "249eb39f6241fe5718691b21f7e7d82b962c8aa3",
+  "commit": "796b2c50d2796055ff7b66d17bca6f9ded64f40e",
   "checkout": null,
   "context": {
     "cookiecutter": {
@@ -21,7 +21,7 @@
       "project_name": "transfersh",
       "containers": "transfersh",
       "git_username": "lkubb",
-      "_lookup": {
+      "lookup": {
         "containers": {
           "transfersh": {
             "image": "docker.io/dutchcoders/transfer.sh:latest-noroot"
@@ -31,7 +31,7 @@
           "data": "data"
         }
       },
-      "_settings": {
+      "settings": {
         "config": {
           "basedir": "/data",
           "listener": "127.0.0.1:7435",
