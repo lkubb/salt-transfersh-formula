@@ -2,7 +2,7 @@
 
 {%- set tplroot = tpldir.split("/")[0] %}
 {%- from tplroot ~ "/map.jinja" import mapdata as transfersh with context %}
-{%- from tplroot ~ "/libtofs.jinja" import files_switch with context %}
+{%- from tplroot ~ "/libtofsstack.jinja" import files_switch with context %}
 
 transfer.sh user account is present:
   user.present:
@@ -54,14 +54,16 @@ transfer.sh podman API is available:
 transfer.sh compose file is managed:
   file.managed:
     - name: {{ transfersh.lookup.paths.compose }}
-    - source: {{ files_switch(["docker-compose.yml", "docker-compose.yml.j2"],
-                              lookup="transfer.sh compose file is present"
+    - source: {{ files_switch(
+                    ["docker-compose.yml", "docker-compose.yml.j2"],
+                    config=transfersh,
+                    lookup="transfer.sh compose file is present",
                  )
               }}
     - mode: '0644'
     - user: root
     - group: {{ transfersh.lookup.rootgroup }}
-    - makedirs: True
+    - makedirs: true
     - template: jinja
     - makedirs: true
     - context:
