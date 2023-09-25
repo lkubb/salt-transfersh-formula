@@ -34,3 +34,4 @@ transfer.sh service is running:
 {%- endif %}
     - watch:
       - transfer.sh is installed
+      - sls: {{ sls_config_file }}

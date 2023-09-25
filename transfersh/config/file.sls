@@ -26,7 +26,7 @@ transfer.sh environment files are managed:
     - template: jinja
     - require:
       - user: {{ transfersh.lookup.user.name }}
-    - watch_in:
+    - require_in:
       - transfer.sh is installed
     - context:
         transfersh: {{ transfersh | json }}
