@@ -20,12 +20,8 @@ services:
     labels:
       - io.containers.autoupdate=registry
 {%- endif %}
-    volumes:
-      # temporary workaround for https://github.com/dutchcoders/transfer.sh/issues/462
-      # mounting a subdir only does not work because it does not have 777 permissions
-      # by default.
-      - /tmp:/tmp
 {%- if "local" == transfersh.config.provider %}
+    volumes:
       - {{ transfersh.lookup.paths.data or "transfersh-data" }}:{{ transfersh.config.basedir }}{%- if not data_is_network_mount %}:Z{%- endif %}
 {%- endif %}
     ports:
