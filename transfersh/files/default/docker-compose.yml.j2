@@ -1,3 +1,11 @@
+{%- set data_is_network_mount = false -%}
+{%- if transfersh.lookup.paths.data -%}
+{%-   set data_is_network_mount = salt["cmd.run_stdout"](
+        "df -P '{data}' | ".format(data=transfersh.lookup.paths.data) ~
+          "awk 'BEGIN {e=1} $NF ~ /^\/.+/ { e=0 ; print $1 ; exit } END { exit e }'",
+        python_shell=true
+) -%}
+{%- endif -%}
 ---
 version: '3.8'
 
@@ -18,7 +26,7 @@ services:
       # by default.
       - /tmp:/tmp
 {%- if "local" == transfersh.config.provider %}
-      - {{ transfersh.lookup.paths.data or "transfersh-data" }}:{{ transfersh.config.basedir }}
+      - {{ transfersh.lookup.paths.data or "transfersh-data" }}:{{ transfersh.config.basedir }}{%- if not data_is_network_mount %}:Z{%- endif %}
 {%- endif %}
     ports:
 {%- if not transfersh.config.get("tls_listener_only") %}
